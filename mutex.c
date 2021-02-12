@@ -10,16 +10,23 @@
 void display(int n1, int n2, char ch, int result);
 void* add();
 void* subtract();
+
+//mutex declaration
 pthread_mutex_t mutex;
 
 // main function
 int main(int argc, char* argv[])
 {
+//thread declaration
 pthread_t p1, p2;
+
+//mutex initialization
 if(pthread_mutex_init(&mutex, NULL) != 0)
 {
  printf("can't initiate mutex");
 }
+
+//thread creation or initialization
 if (pthread_create(&(p1), NULL, &add, NULL) != 0)
  { 
 }
@@ -27,9 +34,15 @@ if (pthread_create(&(p2), NULL, &subtract, NULL) != 0)
 {
 }
 
+//join is used to wait for the termination of a thread
     pthread_join(p1, NULL); 
     pthread_join(p2, NULL); 
+//destroy the mutex created
     pthread_mutex_destroy(&mutex); 
+//to end a thread - pthread_exit()
+//to end a process - exit()
+//Note: If we use exit() instead of pthread_exit() to end a thread,
+//the whole process with all associated threads will be terminated even if some of the threads may still be running.
     pthread_exit(NULL);
   
   return 0;
